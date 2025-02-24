@@ -1,6 +1,6 @@
 {
   "name": "six-cities",
-  "version": "5.0.0",
+  "version": "0.1.0",
   "description": "Проект «Шесть городов» от HTML Academy",
   "keywords": [
     "rest",
@@ -24,11 +24,17 @@
     "eslint-config-htmlacademy": "9.1.1",
     "rimraf": "5.0.1",
     "ts-node": "10.9.1",
+    "tsx": "^4.19.3",
     "typescript": "5.2.2"
   },
   "type": "module",
   "engines": {
     "node": "^18.0.0",
     "npm": ">=8"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "commander": "^13.1.0",
+    "csv-parse": "^5.6.0"
   }
 }

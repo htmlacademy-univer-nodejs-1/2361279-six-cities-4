@@ -5,6 +5,7 @@
 /dist/
 /docs/
 .idea/*
+/.node-version
 
 .DS_Store
 coverage
