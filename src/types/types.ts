@@ -35,7 +35,7 @@ export type Offer = {
   publicationDate: Date;
   city: City;
   preview: string;
-  photos: [string];
+  photos: string[];
   isPremium: boolean;
   isFavorite: boolean;
   rating: number;
@@ -43,7 +43,7 @@ export type Offer = {
   roomCount: number;
   guestCount: number;
   cost: number;
-  facilities: [Facilities];
+  facilities: Facilities[];
   author: string;
   commentsCount: number;
   coordinates: Coordinates;
