@@ -6,13 +6,14 @@ import {parse} from 'csv-parse/sync';
 import {stringify} from 'csv-stringify/sync';
 import path from 'node:path';
 import fs from 'node:fs';
-import {City, Facilities, Offer, OfferType} from "./types/types.js";
+import {City, Facilities, Offer, OfferType} from './types/types.js';
 import {
   generateRandomBool,
   generateRandomIntegerInRange,
   generateRandomString,
   getRandomElementFromEnum
-} from "./basicTypesRandomGenerator.js";
+} from './basicTypesRandomGenerator.js';
+import {createInterface} from 'node:readline';
 
 const program = new Command();
 
@@ -32,43 +33,53 @@ async function main(args: Command) {
 
   if (options.version) {
     console.log(JSON.parse(fs.readFileSync('package.json', 'utf8')).version);
+    return;
   }
   if (options.import) {
-    importHandler();
+    await importHandler();
+    return;
   }
 
   if (options.generate) {
     await generateHandler(...(options.generate as [string, string, string]));
+
   }
 }
 
-function importHandler() {
-  const tsvParsed = parse(
-    fs.readFileSync(path.join('src', 'mocks', 'generated_offers.tsv'), 'utf8'),
-    {delimiter: '\t'}) as string[][];
+async function importHandler() {
+  const rl = createInterface({
+    input: fs.createReadStream(path.join('src', 'mocks', 'generated_offers.tsv')),
+    crlfDelay: Infinity,
+  });
 
-  let offerFieldNames = Object.keys(generateRandomOffer());
-  for (let i = 1; i < tsvParsed.length; ++i) {
-    let offerValues = tsvParsed[i].map(v => JSON.parse(v));
-    let offerKeyValuePairs = offerFieldNames.map((n, i) => ([n, offerValues[i]]));
-    let offer = Object.fromEntries(offerKeyValuePairs);
-    offer.publicationDate = new Date(offer.publicationDate);
-    console.log(offer);
+  let offerFieldNames;
+  let isFirstLine = false;
+  for await (const line of rl) {
+    const tsvParsed = parse(line, {delimiter: '\t'})[0] as string[];
+    if (isFirstLine === false) {
+      offerFieldNames = tsvParsed;
+      isFirstLine = true;
+    } else {
+      const offerValues = tsvParsed.map((v) => JSON.parse(v));
+      const offerKeyValuePairs = offerFieldNames!.map((n, i) => ([n, offerValues[i]]));
+      const offer = Object.fromEntries(offerKeyValuePairs);
+      console.log(offer);
+    }
   }
 }
 
-async function generateHandler(n: string, filepath: string, url: string) {
-  let nInt = parseInt(n);
+async function generateHandler(n: string, filepath: string, _: string) {
+  const nInt = parseInt(n, 10);
 
   const writeStream = fs.createWriteStream(filepath, 'utf8');
   writeStream.on('finish', () => console.log('Запись завершена'));
-  writeStream.on('error', (err) => console.log('Ошибка при записи: ' + err));
+  writeStream.on('error', (err) => console.log(`Ошибка при записи: ${ err}`));
 
   writeStream.write(stringify([Object.keys(generateRandomOffer())], {delimiter: '\t'}));
   for (let i = 0; i < nInt; ++i) {
-    let offer = generateRandomOffer();
-    if (!writeStream.write(stringify([Object.values(offer).map(v => JSON.stringify(v))], {delimiter: '\t'}))) {
-      await new Promise(res => writeStream.once('drain', res));
+    const offer = generateRandomOffer();
+    if (false === writeStream.write(stringify([Object.values(offer).map((v) => JSON.stringify(v))], {delimiter: '\t'}))) {
+      await new Promise((res) => writeStream.once('drain', res));
     }
   }
 
