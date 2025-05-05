@@ -42,7 +42,6 @@ async function main(args: Command) {
 
   if (options.generate) {
     await generateHandler(...(options.generate as [string, string, string]));
-    return;
   }
 }
 
