@@ -1,58 +1,56 @@
 export const CreateOfferValidationMessage = {
   title: {
-    minLength: 'Minimum title length must be 10',
-    maxLength: 'Maximum title length must be 100',
+    required: 'title is required',
+    minLength: 'minimum title length must be 10',
+    maxLength: 'maximum title length must be 100',
   },
-  info: {
-    minLength: 'Minimum description length must be 20',
-    maxLength: 'Maximum description length must be 1024',
-  },
-  date: {
-    invalidFormat: 'postDate must be a valid ISO date',
+  description: {
+    required: 'description is required',
+    minLength: 'minimum description length must be 20',
+    maxLength: 'maximum description length must be 1024',
   },
   city: {
-    invalid: 'city must be value from City Enum',
+    invalid: 'city must be Paris, Cologne, Brussels, Amsterdam, Hamburg and Dusseldorf',
   },
-  photos: {
-    invalidFormat: 'Images must be an array',
+  previewImage: {
+    required: 'previewImage is required',
+    maxLength: 'too short for field «image»',
   },
-  premium: {
-    invalidFormat: 'Must be Boolean',
+  images: {
+    invalidFormat: 'field images must be an array',
+    length: 'images must contain 6 items'
   },
-  favorite: {
-    invalidFormat: 'Must be Boolean',
-  },
-  rating: {
-    minValue: 'Minimum price is 1',
-    maxValue: 'Maximum price is 5',
-    invalidFormat: 'Must be Number',
+  isPremium: {
+    invalidFormat: 'field isPremium must be boolean'
   },
   type: {
-    invalid: 'type must be value from OfferType Enum',
+    invalid: 'type must be Apartment, House, Room and Hotel',
   },
-  rooms: {
-    minValue: 'Minimum roomCount is 1',
-    maxValue: 'Maximum roomCount is 8',
-    invalidFormat: 'Must be Number',
+  bedrooms: {
+    invalidFormat: 'bedrooms must be an integer',
+    minValue: 'minimum bedrooms is 1',
+    maxValue: 'maximum bedrooms is 8',
   },
-  guests: {
-    minValue: 'Minimum guestCount is 1',
-    maxValue: 'Maximum guestCount is 10',
-    invalidFormat: 'Must be Number',
+  maxAdults: {
+    invalidFormat: 'maxAdults must be an integer',
+    minValue: 'minimum maxAdults is 1',
+    maxValue: 'maximum maxAdults is 10',
   },
   price: {
-    minValue: 'Minimum price is 100',
-    maxValue: 'Maximum price is 100000',
-    invalidFormat: 'Price must be an Number',
+    invalidFormat: 'price must be an integer',
+    minValue: 'minimum price is 100',
+    maxValue: 'maximum price is 100000',
   },
-  amenities: {
-    invalidFormat: 'Must be an array',
-    invalidAmenityFormat: 'amenity must be value from Amenity Enum'
+  goods: {
+    invalidFormat: 'field goods must be an array',
+    invalid: 'goods must be Breakfast, Air conditioning, Laptop friendly workspace, Baby seat, Washer, Towels, Fridge',
   },
-  userId: {
-    invalidId: 'userId field must be a valid id',
+  host: {
+    invalidId: 'host field must be a valid id',
   },
-  coordinates: {
-    invalidFormat: 'Must be two numbers an array',
-  }
+  location: {
+    invalidFormat: 'field location must be an array',
+    invalidFormatInt: 'location items must be an integer',
+    length: 'location must contain 2 items',
+  },
 } as const;

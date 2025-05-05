@@ -1,14 +1,15 @@
 import { Command } from './command.interface.js';
-import { TSVFileReader } from '../../shared/libs/file-reader/index.js';
+import { TSVFileReader } from '../../shared/libs/file-reader/tsv-file-reader.js';
 import { createOffer, getErrorMessage, getMongoURI } from '../../shared/helpers/index.js';
-import { UserService } from '../../shared/modules/user/user-service.interface.js';
+import { DefaultUserService, UserModel, UserService } from '../../shared/modules/user/index.js';
 import { DefaultOfferService, OfferModel, OfferService } from '../../shared/modules/offer/index.js';
 import { DatabaseClient, MongoDatabaseClient } from '../../shared/libs/database-client/index.js';
 import { Logger } from '../../shared/libs/logger/index.js';
 import { ConsoleLogger } from '../../shared/libs/logger/console.logger.js';
-import { DefaultUserService, UserModel } from '../../shared/modules/user/index.js';
+import { Offer } from '../../shared/types/index.js';
 import { DEFAULT_DB_PORT, DEFAULT_USER_PASSWORD } from './command.constant.js';
-import { RentalOffer } from '../../shared/types/index.js';
+import { CommentModel } from '../../shared/modules/comment/comment.entity.js';
+
 
 export class ImportCommand implements Command {
   private userService: UserService;
@@ -22,7 +23,7 @@ export class ImportCommand implements Command {
     this.onCompleteImport = this.onCompleteImport.bind(this);
 
     this.logger = new ConsoleLogger();
-    this.offerService = new DefaultOfferService(this.logger, OfferModel);
+    this.offerService = new DefaultOfferService(this.logger, OfferModel, CommentModel);
     this.userService = new DefaultUserService(this.logger, UserModel);
     this.databaseClient = new MongoDatabaseClient(this.logger);
   }
@@ -38,31 +39,27 @@ export class ImportCommand implements Command {
     this.databaseClient.disconnect();
   }
 
-  private async saveOffer(offer: RentalOffer) {
+  private async saveOffer(offer: Offer) {
     const user = await this.userService.findOrCreate({
-      ...offer.renter,
+      ...offer.host,
       password: DEFAULT_USER_PASSWORD
     }, this.salt);
 
     await this.offerService.create({
       title: offer.title,
-      info: offer.info,
-      date: offer.date,
+      description: offer.description,
       city: offer.city,
-      preview: offer.preview,
-      photos: [...offer.photos],
-      premium: offer.premium,
-      favorite: offer.favorite,
-      rating: offer.rating,
+      previewImage: offer.previewImage,
+      images: offer.images,
+      isPremium: offer.isPremium,
       type: offer.type,
-      rooms: offer.rooms,
-      guests: offer.guests,
+      bedrooms: offer.bedrooms,
+      maxAdults: offer.maxAdults,
       price: offer.price,
-      amenities: [...offer.amenities],
-      userId: user.id,
-      coordinates: offer.coordinates,
+      goods: offer.goods,
+      host: user.id,
+      location: offer.location
     });
-
   }
 
   public getName(): string {
@@ -74,7 +71,6 @@ export class ImportCommand implements Command {
     this.salt = salt;
 
     await this.databaseClient.connect(uri);
-
     const fileReader = new TSVFileReader(filename.trim());
 
     fileReader.on('line', this.onImportedLine);

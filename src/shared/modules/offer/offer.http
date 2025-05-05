@@ -10,8 +10,8 @@ POST http://localhost:5000/offers HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "titletitle",
-  "info": "descriptiondescription",
+  "title": "title",
+  "info": "description",
   "date": "01.01.2024",
   "city": "Paris",
   "preview": "preview.img",
@@ -24,6 +24,52 @@ Content-Type: application/json
   "guests": 3,
   "price": 100,
   "amenities": ["a"],
-  "userId": "1",
-  coordinates: ["0", "0"]
+  "renter": "1",
+  "coordinates": ["0", "0"]
 }
+
+###
+
+## Список комментариев к объявлению
+GET http://localhost:5000/comments/662650a0e737e63e2c08c0fb HTTP/1.1
+
+###
+
+## Удалить объявление по идентификатору
+DELETE http://localhost:5000/offers/66562a26226899b57541a450 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc3Nzc0BvdmVybG9vay5uZXQiLCJuYW1lIjoiSmFjayIsImlkIjoiNjY1NGFkMGU0ZGQ5ZWNlMmVjMzZjNWY4IiwiaWF0IjoxNzE2OTIyNDU4LCJleHAiOjE3MTcwOTUyNTh9.pMSBElWEYp5WqtVwGvlf8Xb3Cq2ct6xXSRZ3DtQvU6E
+
+###
+
+## Обновить объявление
+PATCH http://localhost:5000/offers/6655c47f2e583315f08fb23c HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc3Nzc0BvdmVybG9vay5uZXQiLCJuYW1lIjoiSmFjayIsImlkIjoiNjY1NGFkMGU0ZGQ5ZWNlMmVjMzZjNWY4IiwiaWF0IjoxNzE2OTIyNDU4LCJleHAiOjE3MTcwOTUyNTh9.pMSBElWEYp5WqtVwGvlf8Xb3Cq2ct6xXSRZ3DtQvU6E
+
+{
+  "title": "Новый заголовок"
+}
+
+###
+
+## Список объявлений с флагом премиум
+GET http://localhost:5000/premium?city=Cologne HTTP/1.1
+
+###
+
+## Добавление/удаление объявления в избранное/из избранного
+POST http://localhost:5000/favorite/662650a0e737e63e2c08c0fb/1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJuYW1lIjoiSmFjayIsImlkIjoiNjYyNmIzOTUzNTlhMDM1N2QwMjUxMWU5IiwiaWF0IjoxNzE2ODE1NjgwLCJleHAiOjE3MTY5ODg0ODB9.hZniiDs7Z_-suW8UXjPxTh7f1iki-Pk1c5GcsK3PP_A
+
+###
+
+## Список комментариев к объявлению
+GET http://localhost:5000/comments/662650a0e737e63e2c08c0fb HTTP/1.1
+
+###
+
+## Список избранных объявлений
+GET http://localhost:5000/favorite HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRvcmFuc0BvdmVybG9vay5uZXQiLCJuYW1lIjoiSmFjayIsImlkIjoiNjYyNmIzOTUzNTlhMDM1N2QwMjUxMWU5IiwiaWF0IjoxNzE2ODE1NjgwLCJleHAiOjE3MTY5ODg0ODB9.hZniiDs7Z_-suW8UXjPxTh7f1iki-Pk1c5GcsK3PP_A
+
+###

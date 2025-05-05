@@ -9,6 +9,7 @@ export class GenerateCommand implements Command {
   private initialData: MockServerData;
 
   private async load(url: string) {
+    console.log(url);
     try {
       this.initialData = await got.get(url).json();
     } catch {
@@ -36,6 +37,7 @@ export class GenerateCommand implements Command {
     try {
       await this.load(url);
       await this.write(filepath, offerCount);
+      console.info(`File ${filepath} was created!`);
     } catch (error: unknown) {
       console.error('Can\'t generate data');
       console.error(getErrorMessage(error));

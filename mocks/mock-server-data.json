@@ -1,56 +1,62 @@
 {
   "api": {
-    "title": [
+    "titles": [
       "Предложение1",
       "Предложение2",
       "Предложение3",
       "Предложение4",
       "Предложение5"
     ],
-    "info": [
+    "descriptions": [
       "Описание1",
       "Описание2",
       "Описание3",
       "Описание4",
       "Описание5"
-
     ],
-    "preview": [
+    "cities": [
+      "Paris 48.85661;2.351499",
+      "Cologne 50.938361;6.959974",
+      "Brussels 50.846557;4.351697",
+      "Amsterdam 52.370216;4.895168",
+      "Hamburg 53.550341;10.000654"
+    ],
+    "previewImages": [
       "preview1.jpg",
       "preview2.jpg",
       "preview3.jpg",
       "preview4.jpg",
       "preview5.jpg"
     ],
-    "photos": [
+    "images": [
       "photo1.jpg",
       "photo2.jpg",
       "photo3.jpg",
       "photo4.jpg",
       "photo5.jpg"
     ],
-    "name": [
+    "names": [
       "Иван Иванов",
       "Олег Сидоров",
       "Пьер Безухов",
       "Роланд Дискейн",
       "Холи Гибни"
     ],
-    "email": [
+    "emails": [
       "snow@pisem.local",
       "president@dka.local",
       "fish@big.local",
       "test@pisem.local",
       "freedom@pisem.local"
     ],
-    "avatar": [
+    "avatarUrls": [
       "user.jpg",
       "photo.jpg",
       "awesome-avatar.jpg",
       "roland.jpg",
       "smite.jpg"
     ],
-    "password": [
+    "passwords": [
       "password1",
       "password2",
       "password3",
