@@ -1,3 +1,0 @@
-name	description	publicationDate	city	preview	photos	isPremium	isFavorite	rating	type	roomCount	guestCount	cost	facilities	author	commentsCount	coordinates
-"Бар гриль ""Дядя Макс"""	Гриль Дяди Макса	26.05.2003	Каменск-Уральский	https://i.spanix.team/A0G3Q	[https://i.spanix.team/A0G3Q]	false	true	4	apartment	3	10	30000	"[""Washer"", ""Fridge""]"	Дядя Макс	10	{0.213123, 0.12312312}
-Тестовое	Тест	10.11.2012	Екатеринбург	https://i.spanix.team/KQuD3	[https://i.spanix.team/KQuD3]	true	false	1	house	2	12	10000	"[""Towels""]"	Тестировщик	2	{0.3523532, 0.599121}
