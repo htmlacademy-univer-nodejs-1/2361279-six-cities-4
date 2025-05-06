@@ -1,54 +1,56 @@
-import { RentalOffer, RentalType, UserType, RentalAmenities, City } from '../types/index.js';
+import { Offer, HousingType, UserType, Good, City } from '../types/index.js';
 
-export function createOffer(offerData: string): RentalOffer {
+export function createOffer(offerData: string): Offer {
   const [
     title,
-    info,
-    date,
+    description,
+    postDate,
     city,
-    preview,
-    photos,
-    premium,
-    favorite,
+    previewImage,
+    images,
+    isPremium,
+    isFavorite,
     rating,
     type,
-    rooms,
-    guests,
+    bedrooms,
+    maxAdults,
     price,
-    amenities,
+    goods,
     name,
     email,
-    avatar,
+    avatarUrl,
     password,
     userType,
-    coordinates
+    location
   ] = offerData.replace('\n', '').split('\t');
+
+  const user = {
+    name,
+    email,
+    avatarUrl,
+    password,
+    type: userType as UserType
+  };
 
   return {
     title,
-    info,
-    date: new Date(date),
+    description,
+    postDate: new Date(postDate),
     city: city as City,
-    preview,
-    photos: photos.split(';'),
-    premium: premium.toLowerCase() === 'true',
-    favorite: favorite.toLowerCase() === 'true',
+    previewImage,
+    images: images.split(';'),
+    isPremium: isPremium.toLowerCase() === 'true',
+    isFavorite: isFavorite.toLowerCase() === 'true',
     rating: Number.parseInt(rating, 10),
-    type: type as RentalType,
-    rooms: Number.parseInt(rooms, 10),
-    guests: Number.parseInt(guests, 10),
+    type: type as HousingType,
+    bedrooms: Number.parseInt(bedrooms, 10),
+    maxAdults: Number.parseInt(maxAdults, 10),
     price: Number.parseInt(price, 10),
-    amenities: amenities
+    goods: goods
       .split(';')
-      .map((amenity) => amenity as RentalAmenities),
-    renter: {
-      name,
-      email,
-      avatar,
-      password,
-      type: userType as UserType
-    },
+      .map((good) => good as Good),
+    host: user,
     countComments: 0,
-    coordinates: coordinates.split(';').map((coordinate) => Number.parseFloat(coordinate)),
+    location: [Number.parseFloat(location.split(';')[0]),Number.parseFloat(location.split(';')[1])]
   };
 }

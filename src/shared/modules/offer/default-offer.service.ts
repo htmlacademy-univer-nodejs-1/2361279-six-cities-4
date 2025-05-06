@@ -4,6 +4,7 @@ import { Component, SortType } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { DocumentType, types } from '@typegoose/typegoose';
 import { OfferEntity } from './offer.entity.js';
+import { CommentEntity } from '../comment/comment.entity.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { DEFAULT_OFFER_COUNT, PREMIUM_OFFER_COUNT } from './offer.constant.js';
@@ -12,7 +13,8 @@ import { DEFAULT_OFFER_COUNT, PREMIUM_OFFER_COUNT } from './offer.constant.js';
 export class DefaultOfferService implements OfferService {
   constructor(
     @inject(Component.Logger) private readonly logger: Logger,
-    @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>
+    @inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
+    @inject(Component.CommentModel) private readonly commentModel: types.ModelType<CommentEntity>
   ) {}
 
   public async create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>> {
@@ -25,7 +27,7 @@ export class DefaultOfferService implements OfferService {
   public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findById(offerId)
-      .populate('userId')
+      .populate('renter')
       .exec();
   }
 
@@ -89,6 +91,32 @@ export class DefaultOfferService implements OfferService {
     return this.offerModel
       .findByIdAndUpdate(offerId, { isFavorite: false }, { new: true })
       .populate('userId')
+      .exec();
+  }
+
+  public async updateRating(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+    const newRating = await this.commentModel
+      .aggregate([{
+        $match: {
+          $expr: {
+            $eq: [
+              {
+                $toObjectId: offerId
+              },
+              '$offerId'
+            ]
+          }
+        }},
+      {
+        $group: {
+          _id: null,
+          avg: { '$avg': '$rating' }
+        }
+      }
+      ]).exec();
+    return this.offerModel
+      .findByIdAndUpdate(offerId, { rating: newRating[0].avg }, { new: true })
+      .populate('host')
       .exec();
   }
 

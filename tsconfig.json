@@ -22,7 +22,7 @@
     "outDir": "./dist",
     "emitDecoratorMetadata": true,
     "types": [
-      "node",
+      "node"
     ],
     "lib": [
       "ESNext"
@@ -36,6 +36,10 @@
     "**/*.test.ts"
   ],
   "ts-node": {
-    "esm": true
-  }
+    "esm": true,
+    "transpileOnly": true
+  },
+  "files": [
+    "./custom.d.ts"
+  ]
 }

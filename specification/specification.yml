@@ -140,7 +140,7 @@ paths:
         "409":
           description: Некорректный запрос.
 
-  /offers/{offerId}/comments:
+  /comments/{offerId}:
     get:
       tags:
         - comments
@@ -197,7 +197,7 @@ paths:
         "409":
           description: Некорректный запрос.
 
-  /users/register:
+  /register:
       post:
         tags:
           - users
@@ -222,7 +222,7 @@ paths:
           "409":
             description: Некорректный запрос.
 
-  /users/login:
+  /login:
     post:
       tags:
         - users
@@ -243,7 +243,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/userAuthorizationResponse'
+                $ref: '#/components/schemas/user'
         "409":
           description: Некорректный запрос.
 
@@ -263,7 +263,7 @@ paths:
         "409":
           description: Некорректный запрос.
 
-  /users/logout:
+  /logout:
     delete:
       tags:
         - users
@@ -276,7 +276,7 @@ paths:
         "409":
           description: Некорректный запрос.
 
-  /offers/premium?city={city}:
+  /premium?city={city}:
     get:
       tags:
         - premium
@@ -301,7 +301,7 @@ paths:
         "409":
           description: Некорректный запрос.
 
-  /offers/favorites:
+  /favorite:
     get:
       tags:
         - favorites
@@ -320,7 +320,7 @@ paths:
         "409":
           description: Некорректный запрос
 
-  /offers/favorites/{offerId}:
+  /favorite/{offerId}/{status}:
     post:
       tags:
         - favorites
@@ -479,7 +479,7 @@ components:
           minLength: 1
           maxLength: 15
           example: Dmitry
-        avatarUrl:
+        avatar:
           type: string
         type:
           $ref: '#/components/schemas/userType'
@@ -518,7 +518,7 @@ components:
       properties:
         name:
           type: string
-        avatarUrl:
+        avatar:
           type: string
         type:
           $ref: '#/components/schemas/userType'
@@ -570,3 +570,14 @@ components:
         - Amsterdam
         - Hamburg
         - Dusseldorf
+
+    goods:
+      type: string
+      enum:
+        - Air conditioning
+        - Breakfast
+        - Baby seat
+        - Laptop friendly workspace
+        - Washer
+        - Towels
+        - Fridge
